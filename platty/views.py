@@ -14,15 +14,18 @@ def home(request):
     return render(request, 'platty/index.html', {})
 
 def create(request):
-    p = get_object_or_404(Event, pk=event_id)
-    event = Event(date_time = datetime.now(), name="fdasfs", location="fdsfa", description="fdsafdsa")
+    #request.POST['partyName']
+    event = Event(date_time = datetime.now(), name="fdasfs", description="fdsafdsa")
     event_list = Event.objects.order_by('-id')[:5]
-    template = loader.get_template('create.html')
+    template = loader.get_template('platty/create.html')
     context = RequestContext(request, {
         'event_list': event_list,
     })
     #event.save()
     return HttpResponse(template.render(context))
+
+def saveParty(request, event):
+    print 'a'
 
 def parties(request):
     return render_to_response('platty/parties.html', context_instance=RequestContext(request))
