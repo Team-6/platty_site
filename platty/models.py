@@ -2,14 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Event(models.Model):
-	date_time = models.DateTimeField()
-	name = models.CharField(max_length=64)
-	addressLineOne = models.CharField(max_length=128)
-	addressLineTwo = models.CharField(max_length=128)
-	city = models.CharField(max_length=36)
-	state = models.CharField(max_length=2)
-	zipCode = models.PositiveIntegerField(max_length=5)
-	description = models.CharField(max_length=1024)
+	date_time = models.DateTimeField(blank=True)
+	name = models.CharField(max_length=64, blank=True)
+	addressLineOne = models.CharField(max_length=128, blank=True)
+	addressLineTwo = models.CharField(max_length=128, blank=True)
+	city = models.CharField(max_length=36, blank=True)
+	state = models.CharField(max_length=2, blank=True)
+	zipCode = models.PositiveIntegerField(max_length=5, blank=True)
+	description = models.CharField(max_length=1024, blank=True)
 	id = models.AutoField(primary_key=True)
 
 class Role(models.Model):
