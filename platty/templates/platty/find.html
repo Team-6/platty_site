@@ -1,89 +1,57 @@
-﻿
-{% extends "platty/master.html" %}
+﻿{% extends "platty/master.html" %}
 
 {% block content %}
 
-            <div class="container-fluid">
+<div class="container-fluid">
 
-                <!-- Page Heading -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Find <small>Discover parties</small>
-                            {% if True %}
-                                <ul>
-                                {% for user in users %}
-                                    <li> {{ user.id }} </li>
-                                {% endfor %} 
-                                </ul>
-                            
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Find
+                <small>Discover parties</small>
 
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
 
-                        </h1>
+    <div class="row">
+        <div class="col-lg-12">
+            <form class="form-horizontal" action="/find/" method="get">
+                <div class="form-group">
+                    <label for="partyName" class="col-sm-1 control-label">Key Words</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="partyName" name="keywords" placeholder="Enter search terms...">
                     </div>
                 </div>
-                <!-- /.row -->
-				
-				<div class="row">
-					<div class="col-lg-12">
-						<form class="form-horizontal">
-							<div class="form-group">
-								<label for="partyName" class="col-sm-1 control-label">Key Words</label>
-								<div class="col-sm-4">
-									<input type="email" class="form-control" id="partyName" placeholder="Enter search terms...">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="partyType" class="col-sm-1 control-label">Type</label>
-								<div class="col-sm-2">
-								  <select id="partyType" class="form-control">
-									<option>Any</option>
-									<option>Public</option>
-									<option>Private</option>
-								  </select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="requirements" class="col-sm-1 control-label">Requirements</label>
-								<div class="col-sm-10">
-									<button class="btn btn-success" id="requirements">+</button>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="req1" class="col-sm-1 control-label">1:</label>
-								<div class="col-sm-2">
-									<select class="form-control">
-										<option>Item</option>
-										<option>Type</option>
-									</select>
-								</div>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" value="Popcorn">
-								</div>
-								<button class="btn btn-danger" id="remove1">-</button>
-							</div>
-							<div class="form-group">
-								<label for="req2" class="col-sm-1 control-label">2:</label>
-								<div class="col-sm-2">
-									<select class="form-control">
-										<option>Item</option>
-										<option selected>Type</option>
-									</select>
-								</div>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" value="Over 18">
-								</div>
-								<button class="btn btn-danger" id="remove2">-</button>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-offset-1 col-sm-10">
-									<button type="submit" class="btn btn-primary">Search</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </form>
 
+            {% if searched_for != '' %}
+            <div class="col-sm-5">
+                <h2>Results</h2>
+                <p>Query: '{{searched_for}}'</p>
+                <table class="table table-striped">
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                    {% for event in event_list %}
+                    <tr>
+                        <td><a href="../parties/{{event.id}}">{{event.name}}</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
             </div>
-            <!-- /.container-fluid -->
-     {% endblock %}
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

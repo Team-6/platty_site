@@ -23,14 +23,12 @@
                     <th>Name</th>
                     <th>Date</th>
                 </tr>
+                {% for party in hosting_list %}
                 <tr>
-                    <td><a href="#">The Best Party Ever</a></td>
-                    <td>March 10, 2015</td>
+                    <td><a href="../parties/{{party.id}}">{{party.name}}</a></td>
+                    <td>{{party.date_time}}</td>
                 </tr>
-                <tr>
-                    <td><a href="#">The Second Best Party Ever</a></td>
-                    <td>March 12, 2015</td>
-                </tr>
+                {% endfor %}
             </table>
         </div>
     </div>
@@ -42,18 +40,12 @@
                     <th>Name</th>
                     <th>Date</th>
                 </tr>
+                {% for party in going_list %}
                 <tr>
-                    <td><a href="#">Party 1</a></td>
-                    <td>March 10, 2015</td>
+                    <td><a href="../parties/{{party.id}}">{{party.name}}</a></td>
+                    <td>{{party.date_time}}</td>
                 </tr>
-                <tr>
-                    <td><a href="#">Party 2</a></td>
-                    <td>March 11, 2015</td>
-                </tr>
-                <tr>
-                    <td><a href="#">Party 3</a></td>
-                    <td>March 12, 2015</td>
-                </tr>
+                {% endfor %}
             </table>
         </div>
     </div>

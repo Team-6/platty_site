@@ -9,12 +9,6 @@
         <div class="col-lg-12">
             <h1 class="page-header">
                 Create <small>Start a party!</small>
-                <ul>
-                    {% for event in event_list %}
-                    <li> {{ event.id }} </li>
-                    <li> {{ event.location }} </li>
-                    {% endfor %}
-
             </h1>
         </div>
     </div>
@@ -22,89 +16,58 @@
     
     <div class="row">
         <div class="col-lg-12">
-            <form class="form-horizontal" action="{% url 'platty:create' event_id %}" method="post">
+            <form class="form-horizontal" action="/create/" method="post">{% csrf_token %}
                 <div class="form-group">
                     <label for="partyName" class="col-sm-1 control-label">Name</label>
                     <div class="col-sm-3">
-                        <input type="email" class="form-control" id="partyName" placeholder="Name">
+                        <input type="text" class="form-control" name="name" placeholder="Name" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="partyType" class="col-sm-1 control-label">Type</label>
+                    <label for="partyName" class="col-sm-1 control-label">Date</label>
                     <div class="col-sm-2">
-                      <select id="partyType" class="form-control">
-                        <option>Public</option>
-                        <option>Invitation-only</option>
-                        <option>Guests allowed</option>
-                      </select>
+                        <input type="date" class="form-control" name="date" placeholder="Date" required>
+                    </div>
+                    <label for="partyName" class="col-sm-1 control-label">Time</label>
+                    <div class="col-sm-2">
+                        <input type="time" class="form-control" name="time" placeholder="Time" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="partyDesc" class="col-sm-1 control-label">Description</label>
                     <div class="col-sm-6">
-                      <textarea class="form-control" id="partyDesc" placeholder="Write a brief description here."></textarea>
+                      <textarea class="form-control" name="description" placeholder="Write a brief description here." required></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="requirements" class="col-sm-1 control-label">Requirements</label>
-                    <div class="col-sm-10">
-                        <button class="btn btn-success" id="requirements">+</button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="req1" class="col-sm-1 control-label">1:</label>
-                    <div class="col-sm-2">
-                        <select class="form-control">
-                            <option>Item</option>
-                            <option>Donation</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" value="Bag of chips">
-                    </div>
-                    <button class="btn btn-danger" id="remove1">-</button>
-                </div>
-                <div class="form-group">
-                    <label for="req2" class="col-sm-1 control-label">2:</label>
-                    <div class="col-sm-2">
-                        <select class="form-control">
-                            <option>Item</option>
-                            <option>Donation</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" value="Soda">
-                    </div>
-                    <button class="btn btn-danger" id="remove2">-</button>
-                </div>
-                <div class="form-group">
-                    <label for="attendees" class="col-sm-1 control-label">Invitees</label>
+                    <label for="address1" class="col-sm-1 control-label">Address</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" id="attendees" placeholder="Start typing a name...">
+                        <input type="text" class="form-control" name="address1" placeholder="Line 1" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-1 col-sm-6">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>Name</th>
-                                <th>Role</th>
-                            </tr>
-                            <tr>
-                                <td>John Smith</td>
-                                <td>Host</td>
-                            </tr>
-                            <tr>
-                                <td>Bill Gates</td>
-                                <td>Attendee</td>
-                            </tr>
-                        </table>
+                    <label for="address2" class="col-sm-1 control-label"></label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="address2" placeholder="Line 2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address2" class="col-sm-1 control-label">City</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="city" placeholder="City" required>
+                    </div>
+                    <label for="address2" class="col-sm-1 control-label">State</label>
+                    <div class="col-sm-1">
+                        <input type="text" class="form-control" name="state" placeholder="State" required>
+                    </div>
+                    <label for="address2" class="col-sm-1 control-label">Zip</label>
+                    <div class="col-sm-1">
+                        <input type="text" class="form-control" name="zip" placeholder="Zip" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-1 col-sm-10">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-primary" name="submit">Create</button>
                     </div>
                 </div>
             </form>
