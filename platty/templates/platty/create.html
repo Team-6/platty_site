@@ -18,14 +18,15 @@
         </div>
     </div>
     <!-- /.row -->
-    
+
     <div class="row">
         <div class="col-lg-12">
-            <form class="form-horizontal" action="{% url 'platty:create' %}" method="post">
+            <form class="form-horizontal" action="{% url 'platty:edit' event.id %}" method="post">
+                {% csrf_token %}
                 <div class="form-group">
                     <label for="partyName" class="col-sm-1 control-label">Name</label>
                     <div class="col-sm-3">
-							<input type="text" class="form-control" id="partyName" placeholder="Name" value={{ event.party }}>
+                        <input type="email" name="partyName" class="form-control" id="partyName" placeholder="Name">
                     </div>
                 </div>
                 <div class="form-group">
@@ -41,7 +42,38 @@
                 <div class="form-group">
                     <label for="partyDesc" class="col-sm-1 control-label">Description</label>
                     <div class="col-sm-6">
-                      <textarea class="form-control" id="partyDesc" placeholder="Write a brief description here."></textarea>
+                      <textarea class="form-control" name="partyDesc" id="partyDesc" placeholder="Write a brief description here."></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address1" class="col-sm-1 control-label">Address Line 1</label>
+                    <div class="col-sm-6">
+                      <textarea class="form-control" name="address1" id="address1" placeholder="Maybe your street?"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address2" class="col-sm-1 control-label">Address Line 2</label>
+                    <div class="col-sm-6">
+                  <textarea class="form-control" name="address2" id="address2" placeholder="Where to deliver the pizza man?"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="city" class="col-sm-1 control-label">City</label>
+                    <div class="col-sm-6">
+                      <textarea class="form-control" name="city" id="city" placeholder="Brah."></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="state" class="col-sm-1 control-label">State</label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" name="state" id="state" placeholder="State your state."
+                            value={{event.zipCode}} ></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="zipCode" class="col-sm-1 control-label">Zip Code</label>
+                    <div class="col-sm-6">
+                      <textarea class="form-control" name="zipCode" id="zipCode" placeholder="Zip your code bro.">{{ event.zipCode }}</textarea>
                     </div>
                 </div>
                 <div class="form-group">
