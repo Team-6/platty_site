@@ -14,18 +14,19 @@ def home(request):
     return render(request, 'platty/index.html', {})
 
 def create(request):
-    #request.POST['partyName']
-    event = Event(date_time = datetime.now(), name="fdasfs", description="fdsafdsa")
+    #name = request.POST['partyName']
+    event = Event(date_time = datetime.now(), name="fdasfs", description="fdsafdsa", zipCode="84720",)
     event_list = Event.objects.order_by('-id')[:5]
     template = loader.get_template('platty/create.html')
     context = RequestContext(request, {
         'event_list': event_list,
     })
-    #event.save()
+    event.save()
     return HttpResponse(template.render(context))
 
 def saveParty(request, event):
     print 'a'
+    #return HttpResponseRedirect(reverse('platty/create.html'))
 
 def parties(request):
     return render_to_response('platty/parties.html', context_instance=RequestContext(request))
