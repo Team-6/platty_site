@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, render_to_response, get_object_or_404, redirect
 from django.template import RequestContext, loader
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 from django.db import models
 from datetime import datetime
@@ -114,4 +115,17 @@ def profile(request):
     if request.user.is_active:
         return render_to_response('platty/profile.html', context_instance=RequestContext(request))
     else:
+        return redirect('/login/')
+
+def signup(request):
+    if 'submit' not in request.POST:
+        return render_to_response('platty/signup.html', context_instance=RequestContext(request))
+    else:
+        User.objects.create_user(
+            request.POST['username'],
+            request.POST['email'],
+            request.POST['password'],
+            first_name = request.POST['firstName'],
+            last_name = request.POST['lastName'],
+        )
         return redirect('/login/')

@@ -1,42 +1,70 @@
-            
-{% extends "platty/master.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-<div class="container-fluid">
+<head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <form class="form-horizontal" action="/login/" method="post">{% csrf_token %}
-      <div class="form-group">
-        <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="inputEmail3" name="username" placeholder="Username">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-        <div class="col-sm-10">
-          <input type="password" class="form-control" id="inputPassword3" name="password" placeholder="Password">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-          <div class="checkbox">
-            <label>
-              <input type="checkbox"> Remember me
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-1">
-          <button type="submit" class="btn btn-primary">Sign in</button>
-        </div>
-        <div class="col-sm-1">
-          <button type="submit" class="btn btn-info">Sign up</button>
-        </div>
-      </div>
-    </form>
+    <title>Platty</title>
 
-</div>
-<!-- /.container-fluid -->
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
-{% endblock %}
+    <!-- Custom CSS -->
+    <link href="{% static 'css/login.css' %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static 'font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading"> <strong class="">Login</strong>
+
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" role="form" action="/login/" method="post">{% csrf_token %}
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Username</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="inputEmail3" name="username" placeholder="Username" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">Password</label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" id="inputPassword3" name="password" placeholder="Password" required>
+                                </div>
+                            </div>
+                            <div class="form-group last">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <button type="submit" class="btn btn-primary btn-sm">Sign in</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-footer">Not Registered? <a href="/signup/" class="">Register here</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
