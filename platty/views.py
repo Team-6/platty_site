@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, render_to_response, get_object_or_404, redirect
 from django.template import RequestContext, loader
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import *
 from django.contrib.auth.models import User
 
 from django.db import models
@@ -68,7 +68,33 @@ def parties(request):
         return redirect('/login/')
 
 def party(request, party_id):
-    return render_to_response('platty/parties.html', context_instance=RequestContext(request))
+    event = Event.objects.get(id=party_id)
+    if request.user.is_active:
+        if 'attend' in request.POST:
+            role = Role(user=request.user, event=event, role=1)
+            role.save()
+        elif 'unattend' in request.POST:
+            role = Role.objects.get(user=request.user, event=event)
+            role.delete()
+        elif 'remove' in request.POST:
+            event.delete()
+            return redirect('/parties/')
+        hosts = User.objects.filter(role__event=event, role__role=0)
+        attendees = User.objects.filter(role__event=event, role__role=1)
+        template = loader.get_template('platty/party.html')
+        attending = request.user in attendees
+        hosting = request.user in hosts
+        context = RequestContext(request, {
+            'event': event,
+            'hosts': hosts,
+            'attending': attending,
+            'hosting': hosting,
+            'attendees': attendees,
+            'context_instance': request
+        })
+        return HttpResponse(template.render(context))
+    else:
+        return redirect('/login/')
 
 def find(request):
     if request.user.is_active:
@@ -113,6 +139,15 @@ def logout_page(request):
 
 def profile(request):
     if request.user.is_active:
+        if 'submit' in request.POST:
+            request.user.first_name = request.POST['firstName']
+            request.user.last_name = request.POST['lastName']
+            request.user.email = request.POST['email']
+            if 'password' in request.POST and request.POST['password'] != '':
+                request.user.set_password(request.POST['password'])
+                update_session_auth_hash(request, request.user)
+            request.user.save()
+            update_session_auth_hash(request, request.user)
         return render_to_response('platty/profile.html', context_instance=RequestContext(request))
     else:
         return redirect('/login/')

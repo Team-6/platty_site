@@ -1,11 +1,12 @@
 from django.conf.urls import url
+from django.contrib.auth.views import password_change
 
 from . import views
 
 #admin.autodiscover()
 
 urlpatterns = [
-    url(r'^$', views.home, name='home'),
+    url(r'^$', views.parties, name='home'),
     url(r'^create/$', views.create, name='create'),
     url(r'^find/$', views.find, name='find'),
     url(r'^parties/$', views.parties, name='parties'),

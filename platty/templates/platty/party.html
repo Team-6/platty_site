@@ -1,0 +1,56 @@
+﻿
+{% extends "platty/master.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{event.name}}
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+    
+    <div class="row">
+        <div class="col-lg-4">
+            <h3>Hosts:</h3>
+            <table class="table table-striped">
+                {% for host in hosts %}
+                <tr>
+                    <td>{{host.first_name}} {{host.last_name}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <h3>Attendees:</h3>
+            <table class="table table-striped">
+                {% for goer in attendees %}
+                <tr>
+                    <td>{{goer.first_name}} {{goer.last_name}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <form class="form-horizontal" action="/parties/{{event.id}}/" method="post">{% csrf_token %}
+                <div class="form-group">
+                    <div class="col-sm-10">
+                    {% if request.user in attendees %}
+                        <button type="submit" name="unattend" class="btn btn-primary">Leave Party</button>
+                    {% elif request.user in hosts %}
+                        <button type="submit" name="remove" class="btn btn-primary">Cancel Party</button>
+                    {% else %}
+                        <button type="submit" name="attend" class="btn btn-primary">Attend Party</button>
+                    {% endif %}
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+{% endblock %}
