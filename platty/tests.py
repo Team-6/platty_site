@@ -16,12 +16,27 @@ class EventTestCase(TestCase):
         self.assertEqual(p1.zipCode, 84352)
         self.assertEqual(p2.zipCode, 84334)
 
-    def test_create_event_from_post(self):
+    def test_signup(self):
         c = Client()
-        response = c.post('/signup/', { 'username' : 'muffin', 
+
+        #submitButtonClicked information given, redirected to login page.
+        response = c.post('/signup/', { 'submit' : 'submit',
+                                        'username' : 'muffin', 
                                         'email' : 'myemail@email.com',
                                         'password' : 'password',
                                         'firstName' : 'Eric',
-                                        'lastName' : 'Muffin', } )
-        response.status_code
-        self.assertEqual(response.status_code, 200)
+                                        'lastName' : 'Muffin', }, follow=True )
+        
+        user = User.objects.get(email="myemail@email.com")
+        self.assertEqual(len(response.redirect_chain), 1)
+        self.assertEqual(user.email, "myemail@email.com")
+        
+        response = c.post('/signup/', { 
+                                        'username' : 'muffin', 
+                                        'email' : 'myemail@email.com',
+                                        'password' : 'password',
+                                        'firstName' : 'Eric',
+                                        'lastName' : 'Muffin', }, follow=True )
+        
+        #same. submit button not clicked
+        self.assertEqual(len(response.redirect_chain), 0)
