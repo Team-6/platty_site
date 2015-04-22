@@ -28,7 +28,7 @@ class Role(models.Model):
 class Requirement(models.Model):
 	event = models.ForeignKey(Event)
 	description = models.CharField(max_length=256)
-	quanitity = models.IntegerField(max_length=11)
+	quantity = models.IntegerField(max_length=11)
 	id = models.AutoField(primary_key=True)
 
 class Contribution(models.Model):

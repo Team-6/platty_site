@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^find/$', views.find, name='find'),
     url(r'^parties/$', views.parties, name='parties'),
     url(r'^parties/(\d+)/$', views.party, name='parties'),
+    url(r'^edit/(?P<party_id>[0-9]+)/$', views.edit, name='edit'),
     url(r'^login/$', views.login_page, name='login'),
     url(r'^logout/$', views.logout_page, name='logout'),
     url(r'^profile/$', views.profile, name='profile'), 

@@ -96,6 +96,33 @@ def party(request, party_id):
     else:
         return redirect('/login/')
 
+def edit(request, party_id):
+    event = get_object_or_404(Event, pk=party_id)
+    #if request.POST:
+    #    name = request.POST.get('partyName', '')
+    #    event.name.set(name)
+    #    desc = request.POST.get('desc', '')
+    #    address1 = request.POST.get('address1', '')
+    #    address2 = request.POST.get('address2', '')
+    #    city = request.POST.get('city', '')
+    #    state = request.POST.get('state', '')
+    #    pZipCode = request.POST.get('zipCode', '')
+    #    print pZipCode
+
+    template = loader.get_template('platty/edit.html')    
+    context = RequestContext(request, {
+            'event': event,
+    #        'hosts': hosts,
+    #        'attending': attending,
+    #        'hosting': hosting,
+    #        'attendees': attendees,
+    #        'context_instance': request
+        })
+
+    return HttpResponse(template.render(context))
+
+    
+
 def find(request):
     if request.user.is_active:
         template = loader.get_template('platty/find.html')
