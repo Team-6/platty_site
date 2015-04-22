@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from datetime import datetime
 from platty.models import *
@@ -15,3 +15,13 @@ class EventTestCase(TestCase):
 
         self.assertEqual(p1.zipCode, 84352)
         self.assertEqual(p2.zipCode, 84334)
+
+    def test_create_event_from_post(self):
+        c = Client()
+        response = c.post('/signup/', { 'username' : 'muffin', 
+                                        'email' : 'myemail@email.com',
+                                        'password' : 'password',
+                                        'firstName' : 'Eric',
+                                        'lastName' : 'Muffin', } )
+        response.status_code
+        self.assertEqual(response.status_code, 200)
