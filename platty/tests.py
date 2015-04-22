@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
+from django.contrib.auth import *
 from datetime import datetime
 from platty.models import *
 
@@ -40,3 +41,45 @@ class EventTestCase(TestCase):
         
         #same. submit button not clicked
         self.assertEqual(len(response.redirect_chain), 0)
+
+    def test_event_create(self):
+        
+        #todo how do I set user to be active?
+
+        c = Client()
+
+        
+        #create and login the user
+        username = "muffin"
+        password = "themuffinman"
+        email = "muffinman@gmail.com"
+        User.objects.create_user(
+            username,
+            email,
+            password,
+            first_name = "Eric",
+            last_name = "Muffin",
+        )
+
+        user = authenticate(username=username, password=password)
+        user.is_active = True
+
+        #make a create request with valid information. clicked the button
+        response = c.post('/create/', { 'user' : user,
+                                        'verified' : 'yes',
+                                        'submit' : 'submit',
+                                        'name' : 'The Muffin Man', 
+                                        'description' : 'The Muffin Man?',
+                                        'date' : '2000-07-15',
+                                        'time' : '15:32',
+                                        'address1' : 'Drury Lane',
+                                        'address2' : '666',
+                                        'city' : 'Bakersville',
+                                        'state' : 'THE MUFFIN MAN',
+                                        'zip' : '84357', }, follow=True )
+        muffinParty = Event.objects.get(name="The Muffin Man")
+        
+        self.assertEqual(len(response.redirect_chain), 1)
+        self.assertEqual(response.redirect_chain[0], "http://localhost::8000/parties/")
+        self.assertEqual(muffinParty.name, "The Muffin Man")
+
