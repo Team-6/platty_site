@@ -80,9 +80,6 @@
 					<button class="btn btn-success" id="addRequirements">+</button>
                 </div>
 				{% for requirement in event.requirement_set.all %}
-					<input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
-					<label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
-
 	                <div class="form-group">
 		                <label for="req1" class="col-sm-1 control-label">{{ forloop.counter }}:</label>
 			            <div class="col-sm-2">
