@@ -1,6 +1,7 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, render_to_response, get_object_or_404, redirect
 from django.template import RequestContext, loader
+from django.core.urlresolvers import reverse
 from django.contrib.auth import *
 from django.contrib.auth.models import User
 
@@ -98,20 +99,11 @@ def party(request, party_id):
 
 def edit(request, party_id):
     event = get_object_or_404(Event, pk=party_id)
-    #if request.POST:
-    #    name = request.POST.get('partyName', '')
-    #    event.name.set(name)
-    #    desc = request.POST.get('desc', '')
-    #    address1 = request.POST.get('address1', '')
-    #    address2 = request.POST.get('address2', '')
-    #    city = request.POST.get('city', '')
-    #    state = request.POST.get('state', '')
-    #    pZipCode = request.POST.get('zipCode', '')
-    #    print pZipCode
-
     template = loader.get_template('platty/edit.html')    
+    req_list = event.requirement_set.all();
     context = RequestContext(request, {
             'event': event,
+            'req_list':req_list,
     #        'hosts': hosts,
     #        'attending': attending,
     #        'hosting': hosting,
@@ -121,6 +113,44 @@ def edit(request, party_id):
 
     return HttpResponse(template.render(context))
 
+def submit(request, party_id):
+    event = get_object_or_404(Event, pk=party_id)
+    req_list = event.requirement_set.all();
+    if request.user.is_active:
+        if 'submitEdit' in request.POST:
+            event.name=request.POST['name']
+            event.description=request.POST['description']
+            #event.date_time=request.POST['date'] + ' ' + request.POST['time']
+            event.addressLineOne=request.POST['address1']
+            event.addressLineTwo=request.POST['address2']
+            event.city=request.POST['city']
+            event.state=request.POST['state']
+            event.zipCode=request.POST['zip']
+            
+            for req in req_list:
+                req.description=request.POST['desc'+str(req.id)]
+                req.quantity=request.POST['quant'+str(req.id)]           
+                req.save()
+ 
+            event.save()
+            #role = Role(
+            #    user = request.user,
+            #    event = new_event,
+            #    role=0
+            #)
+            #role.save()
+        elif 'addRequirements' in request.POST:
+            req = Requirement(description="", quantity=1)
+            event.requirement_set.add(req);
+            req.save();
+            event.save();
+        else:            
+            for req in req_list:
+                if 'remove'+str(req.id) in request.POST:
+                    req.delete()
+
+    #return rendert( 'platty/edit.html', request, {'myReqs':req_list})
+    return HttpResponseRedirect(reverse('platty:edit', args=(party_id,)))
     
 
 def find(request):
